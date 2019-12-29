@@ -1,10 +1,15 @@
-import React from "react";
+import React, {useEffect} from 'react';
+import { connect } from 'react-redux';
+import { fetchPosts } from '../actions/postActions';
 
-function Posts({ posts }) {
-  const postItems = posts && posts.map(p => (
-    <div key={p.id}>
-      <h3>{p.title}</h3>
-      <p>{p.body}</p>
+function Posts({ posts, fetchPosts }) {
+
+  useEffect(() =>  fetchPosts(), [fetchPosts]);
+
+  const postItems = posts && posts.map((value, index) => (
+    <div key={index + 1}>
+      <h3>{index + 1}. {value.title}</h3>
+      <p>{value.body}</p>
     </div>
   ));
 
@@ -15,4 +20,13 @@ function Posts({ posts }) {
     </div>
   )
 }
-export default Posts;
+
+const mapStateToProps = state => ({
+  posts: state.posts.items
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchPosts: () => dispatch(fetchPosts())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);

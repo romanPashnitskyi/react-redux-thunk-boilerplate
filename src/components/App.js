@@ -1,14 +1,16 @@
 import React from 'react';
-import Posts from "./Posts";
-import Form from "./Form";
+import { Provider } from 'react-redux';
+import store from '../store';
+import Posts from './Posts';
+import Form from './Form';
+
 
 function App() {
   return (
-    <div>
-      Hello World!
+    <Provider store={store}>
       <Form />
       <Posts />
-    </div>
+    </Provider>
   );
 }
 

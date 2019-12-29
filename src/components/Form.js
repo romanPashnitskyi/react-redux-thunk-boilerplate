@@ -1,22 +1,27 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
+import { connect } from 'react-redux';
+import { createPost } from '../actions/postActions';
 
 function Form({ createPost }) {
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const post = {
       title,
       body
     };
     createPost(post);
+    setTitle('');
+    setBody('');
   };
 
   return (
     <div>
       <h1>Add Post</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <label>Title: </label><br />
           <input
@@ -40,4 +45,13 @@ function Form({ createPost }) {
     </div>
   )
 }
-export default Form;
+
+const mapStateToProps = state => ({
+  post: state.posts.item
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  createPost: (post) => dispatch(createPost(post))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
